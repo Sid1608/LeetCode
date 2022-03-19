@@ -44,3 +44,82 @@ freqStack.pop();   // return 4, as 4, 5 and 7 is the most frequent, but 4 is clo
 	<li>It is guaranteed that there will be at least one element in the stack before calling <code>pop</code>.</li>
 </ul>
 </div>
+
+### Approach 1 (set,unordered_map)
+```cpp
+class FreqStack {
+public:
+    stack<int>stk;
+    int timer=0,max_size;
+    unordered_map<int,vector<int>>mp;
+    unordered_map<int,vector<int>>mq;
+    set<int,greater<int>>s;
+    FreqStack() {
+        
+    }
+    
+    void push(int val) {
+        stk.push(val);
+        mp[val].push_back(timer);
+        s.insert(mp[val].size());
+        mq[mp[val].size()].push_back(val);
+        timer++;
+    }
+    
+    int pop() {
+        int ele,t=-1;
+        while(mq[*s.begin()].size()==0){
+            s.erase(s.begin());
+        }
+        int max_size=*s.begin();
+        ele=mq[max_size].back();
+        mp[ele].pop_back();
+        mq[max_size].pop_back();
+        return ele;
+        
+    }
+};
+
+```
+### Approach 2 (priority_queue)
+``` cpp
+class FreqStack {
+    priority_queue<pair<int, pair<int, int>>> pq;
+    unordered_map<int, int> freq;
+    int timer = 0;
+public:
+    void push(int x) {
+        q.emplace(++freq[x], make_pair(++timer, x));
+    }
+    
+    int pop() {
+        auto val = q.top();
+        q.pop();
+        int x = val.second.second;
+        freq[x]--;
+        return x;
+    }
+};
+```
+
+
+
+### Approach 3 (stack of stack)
+``` cpp
+unordered_map<int, int> freq;
+    unordered_map<int, stack<int>> m;
+    int maxfreq = 0;
+
+    void push(int x) {
+        maxfreq = max(maxfreq, ++freq[x]);
+        m[freq[x]].push(x);
+    }
+
+    int pop() {
+        int x = m[maxfreq].top();
+        m[maxfreq].pop();
+        if (!m[freq[x]--].size()) maxfreq--;
+        return x;
+    }
+
+```
