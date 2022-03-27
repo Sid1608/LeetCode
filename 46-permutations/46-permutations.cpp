@@ -6,14 +6,12 @@ public:
             ans.insert(nums);
             return ;
         }
-        
-        for(int i=ind;i<n;i++){
-            for(int j=i;j<n;j++){
-                swap(nums[i],nums[j]);
-                solve(ind+1,nums,n,ans);
-                swap(nums[i],nums[j]);
-            }
+        for(int j=ind;j<n;j++){
+            swap(nums[ind],nums[j]);
+            solve(ind+1,nums,n,ans);
+            swap(nums[ind],nums[j]);
         }
+    
         
         
     }
