@@ -1,17 +1,18 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& a) {
-        map<int,int>p;
-        for(int i=0;i<a.size();i++){
-            p[a[i]]++;
+        int fast=a[0];
+        int slow=a[0];
+        do{
+            slow=a[slow];
+            fast=a[a[fast]];
+            
+        }while(fast!=slow);
+        fast=a[0];
+        while(fast!=slow){
+            fast=a[fast];
+            slow=a[slow];
         }
-        int ans;
-        for(int i=0;i<a.size();i++){
-            if(p[a[i]]>1){
-                ans=a[i];
-                break;
-            }
-        }
-        return ans;
+        return slow;
     }
 };
