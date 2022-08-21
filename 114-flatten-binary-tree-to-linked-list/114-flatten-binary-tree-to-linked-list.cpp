@@ -11,6 +11,7 @@
  */
 class Solution {
 public:
+    //Recurcive
     TreeNode* prev=NULL;
     void solve(TreeNode* root){
         if(!root)return ;
@@ -20,8 +21,37 @@ public:
         root->left=NULL;
         prev=root;
     }
+    TreeNode* getRightMostNode(TreeNode* leftNode){
+        while(leftNode->right!=NULL){
+            leftNode=leftNode->right;
+        }
+        return leftNode;
+    }
     void flatten(TreeNode* root) {
-        solve(root);
+        //iterative
+        if(!root)return ;
+        TreeNode* curr=root;
+        stack<TreeNode*>st;
+        st.push(curr);
+        while(st.size()){
+            TreeNode* curr=st.top();
+            st.pop();
+            if(curr->right)
+                st.push(curr->right);
+            if(curr->left)
+                st.push(curr->left);
+            // if(curr->left){
+            //     ListNode* leftNode=curr->left;
+            //     ListNode* rightMostNode=getRightMostNode(leftNode);
+            //     rightMostNode->right=curr->right;
+            // }
+            if(!st.empty()){
+                curr->right=st.top();
+            }
+            curr->left=NULL;
+            
+        }
+        
         
     }
 };
