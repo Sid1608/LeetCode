@@ -24,9 +24,22 @@ public:
         }
         return dp[idx]=ans;
     }
+    int tabu(string s){
+        int n=s.size();
+        vector<int>dp(n+1,0);
+        for(int idx=n-1;idx>=0;idx--){
+            int ans=INT_MAX;
+            for(int i=idx;i<s.size();i++){
+                if(isPal(idx,i,s))
+                    ans=min(ans,1+dp[i+1]);
+            }
+            dp[idx]=ans;
+        }
+        return dp[0]-1;
+    }
     int minCut(string s) {
         int n=s.size();
-        vector<int>dp(n,-1);
-        return getPartioning(0,s,dp)-1;
+        
+        return tabu(s);
     }
 };
