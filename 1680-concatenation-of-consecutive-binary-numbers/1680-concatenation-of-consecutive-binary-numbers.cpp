@@ -16,15 +16,20 @@ public:
         int x=__builtin_clz(n);
         return 32-x;
     }
+    int func(int n){
+        return log2(n)+1;
+    }
     int concatenatedBinary(int n) {
-        int ans=0;
-        int mod=1e9+7;
+        long ans=0;
+        long mod=1e9+7;
+        int len=0;
         for(int i=1;i<=n;i++){
-            int len=findLen(i);
-            ans=((long long)ans<<len)%mod;
-            ans+=i;
-            ans%=mod;
+            if((i&(i-1))==0){
+                len++;
+            }
+            ans=((ans<<len)%mod+i)%mod;
         }
-        return ans;
+        
+        return (int)ans;
     }
 };
